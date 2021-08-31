@@ -1,3 +1,5 @@
+Code for gps speedometer using the following hardware: D1 mini, OLED display shield, GPS NEO-6M
+
 #include <SoftwareSerial.h>
 #include <Wire.h>
 #include <Adafruit_SSD1306.h>
@@ -7,13 +9,13 @@
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 
-//On an arduino UNO: A4(SDA), A5(SCL)
 #define OLED_RESET 0 //Reset pin # (or -1 if sharing Arduino reset pin)
 #define SCREEN_ADDRESS 0x3C //See datasheet for Address
 //Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 Adafruit_SSD1306 display(OLED_RESET);
 
-#define rxPin 3
+//rx and tx from D1 mini board
+#define rxPin 3 
 #define txPin 1
 SoftwareSerial neogps(rxPin,txPin);
 
