@@ -8,12 +8,13 @@
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 
 //On an arduino UNO: A4(SDA), A5(SCL)
-#define OLED_RESET -1 //Reset pin # (or -1 if sharing Arduino reset pin)
+#define OLED_RESET 0 //Reset pin # (or -1 if sharing Arduino reset pin)
 #define SCREEN_ADDRESS 0x3C //See datasheet for Address
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+//Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+Adafruit_SSD1306 display(OLED_RESET);
 
-#define rxPin 2
-#define txPin 3
+#define rxPin 3
+#define txPin 1
 SoftwareSerial neogps(rxPin,txPin);
 
 TinyGPSPlus gps;
@@ -26,10 +27,7 @@ void setup() {
   neogps.begin(9600);
   
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
-  if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
-    Serial.println(F("SSD1306 allocation failed"));
-    for(;;); // Don't proceed, loop forever
-  }
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // initialize with the I2C addr 0x3C (for the 64x48)
 
   display.clearDisplay();
   display.display();
@@ -60,9 +58,9 @@ void loop() {
   else
   {
     display.clearDisplay();
-    display.setTextColor(SSD1306_WHITE);
+    display.setTextColor(WHITE);
     display.setCursor(0, 0);
-    display.setTextSize(3);
+    display.setTextSize(2);
     display.print("No Data");
     display.display();
   }  
@@ -72,29 +70,30 @@ void loop() {
 void print_speed()
 {
   display.clearDisplay();
-  display.setTextColor(SSD1306_WHITE);
+  display.setTextColor(WHITE);
        
   if (gps.location.isValid() == 1)
   {
    //String gps_speed = String(gps.speed.kmph());
     display.setCursor(0, 0);
-    display.setTextSize(3);
-    display.print(gps.speed.kmph());
-    
-    display.setCursor(75, 20);
     display.setTextSize(2);
+    int speed_value=gps.speed.kmph();
+    display.print(speed_value);
+    
+    display.setCursor(40, 0);
+    display.setTextSize(1);
     display.print("km/h");
 
     display.setTextSize(1);
-    display.setCursor(0, 50);
+    display.setCursor(0, 30);
     display.print("SAT:");
-    display.setCursor(25, 50);
+    display.setCursor(25, 30);
     display.print(gps.satellites.value());
 
     display.setTextSize(1);
-    display.setCursor(70, 50);
+    display.setCursor(0, 40);
     display.print("ALT:");
-    display.setCursor(95, 50);
+    display.setCursor(30, 40);
     display.print(gps.altitude.meters(), 0);
 
     display.display();
