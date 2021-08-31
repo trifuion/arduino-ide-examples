@@ -1,4 +1,4 @@
-Code for gps speedometer using the following hardware: D1 mini, OLED display shield, GPS NEO-6M
+Code for gps speedometer using the following hardware: D1 mini, OLED display shield 0.66" 64x48, GPS NEO-6M
 
 #include <SoftwareSerial.h>
 #include <Wire.h>
@@ -6,8 +6,8 @@ Code for gps speedometer using the following hardware: D1 mini, OLED display shi
 #include <TinyGPS++.h>
 
 
-#define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 64 // OLED display height, in pixels
+#define SCREEN_WIDTH 64 // OLED display width, in pixels
+#define SCREEN_HEIGHT 48 // OLED display height, in pixels
 
 #define OLED_RESET 0 //Reset pin # (or -1 if sharing Arduino reset pin)
 #define SCREEN_ADDRESS 0x3C //See datasheet for Address
